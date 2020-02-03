@@ -125,7 +125,7 @@ class OutputReg(QtWidgets.QWidget):
 
             if self.expand_title.checkState() == QtCore.Qt.Checked:
                 flag = True
-                self.out_table_widget.item(self.row, 0).setBackground(QtGui.QBrush(QtGui.QColor(255, 0, 0)))
+                self.out_table_widget.item(self.row, 0).setBackground(QtGui.QBrush(QtGui.QColor(0, 255, 0)))
             else:
                 flag = False
             self.expand_title_list.append(flag)
@@ -152,6 +152,9 @@ class OutputReg(QtWidgets.QWidget):
         if filename[0]:
             name_list = []
             addr_list = []
+            self.parser.option['Little Endian'] = (self.little_endian.checkState() == QtCore.Qt.Checked)
+            self.parser.option['Byte Expand'] = (self.byte_expand.checkState() == QtCore.Qt.Checked)
+            self.parser.option['Remove Reserved'] = (self.remove_reserved.checkState() == QtCore.Qt.Checked)
             row_count = self.out_table_widget.rowCount()
             for row in range(row_count):
                 name_list.append(self.out_table_widget.item(row, 0).text())

@@ -100,9 +100,9 @@ class RegXMLParser:
     
     def get_basesize(self, element):
         if element.tag == 'FundamentalType':
-            return element.attrib['size']
+            return int(element.attrib['size'])
         elif element.tag == 'Struct':
-            return element.attrib['size']
+            return int(element.attrib['size'])
         elif element.tag == 'PointerType':
             return 32
         else:
@@ -153,6 +153,31 @@ class RegXMLParser:
                 valueList.append(temp_v)
         return valueList
     
+    def _write(self, address, name, value, description, base_size, out):
+        if self.option['Byte Expand']:
+            if base_size//8 == 4:
+                if self.option['Little Endian']:
+                    postfix = ["[7:0]", "[15:8]", "[23:16]", "[31:24]"]
+                    v = [value&0xff, (value>>8)&0xff, (value>>16)&0xff, (value>>24)&0xff]
+                else:
+                    postfix = ["[31:24]", "[23:16]", "[15:8]", "[7:0]"]
+                    v = [(value>>24)&0xff, (value>>16)&0xff, (value>>8)&0xff, value&0xff]
+                for j in range(4):
+                    out.write(address + j, name+postfix[j], 8, v[j], description)
+            elif base_size//8 == 2:
+                if self.option['Little Endian']:
+                    postfix = ["[7:0]", "[15:8]"]
+                    v = [value&0xff, (value>>8)&0xff]
+                else:
+                    postfix = ["[15:8]", "[7:0]"]
+                    v = [(value>>8)&0xff, value&0xff]
+                for j in range(2):
+                    out.write(address + j, name+postfix[j], 8, v[j], description)
+            else:
+                out.write(address, name, base_size, value, description)
+        else:
+            out.write(address, name, base_size, value, description)
+
     def write(self, prefix, address, member, out):
         # if self.option['Byte Expand'] == True:
         if member['array_list'] == []:
@@ -162,8 +187,7 @@ class RegXMLParser:
                 value = 0
             else:
                 value = int(member['init_value'])
-            
-            out.write(address, prefix+member['name'], value, member['description'])
+            self._write(address, prefix+member['name'], value, member['description'], member['base_size'], out)
         else:
             length = len(member['array_list'])
             current_index = [0]*length
@@ -178,15 +202,15 @@ class RegXMLParser:
                         value = int(member['init_value'].strip('...'))
                     
                     for i in range(total):
-                        addr = address + int(member['base_size'])*i//8
+                        addr = address + member['base_size']*i//8
                         name = member['name']+self._ListToString(current_index)
-                        out.write(addr, prefix + name, value, member['description'])
+                        self._write(addr, prefix + name, value, member['description'], member['base_size'], out)
                         self._add_array_list(member['array_list'], current_index, -1)
                 else:
                     value = 0
                     value_list = self._GetValueList(member['init_value'])
                     for i in range(total):
-                        addr = address + int(member['base_size'])*i//8
+                        addr = address + member['base_size']*i//8
                         name = member['name']+self._ListToString(current_index)
 
                         if i < len(value_list):
@@ -195,7 +219,7 @@ class RegXMLParser:
                                 value = int(current_value, 16)
                             else:
                                 value = int(current_value)
-                        out.write(addr, prefix+name, value, member['description'])
+                        self._write(addr, prefix+name, value, member['description'], member['base_size'], out)
                         self._add_array_list(member['array_list'], current_index, -1)
             else:
                 length = len(member['array_list'])
@@ -204,9 +228,9 @@ class RegXMLParser:
                 for i in member['array_list']:
                     total = total*i
                 for i in range(total):
-                    addr = address + int(member['base_size'])*i//8
+                    addr = address + member['base_size']*i//8
                     name = member['name']+self._ListToString(current_index)
-                    out.write(addr, prefix + name, 0, member['description'])
+                    self._write(addr, prefix + name, 0, member['description'], member['base_size'], out)
                     self._add_array_list(member['array_list'], current_index, -1)
     
     def recurse_write(self, prefix, elem, base_addr, out):
@@ -235,7 +259,7 @@ class RegXMLParser:
                         for i in m['array_list']:
                             total = total*i
                         for i in range(total):
-                            address = address + int(m['base_size'])*i//8
+                            address = address + m['base_size']*i//8
                             self.recurse_write(prefix + m['name'] + self._ListToString(current_index) + '.', self.get_element_by_id(e.attrib['type']), address, out)
                             self._add_array_list(m['array_list'], current_index, -1)
                 # print(self.analyze_member_element(e))
@@ -296,7 +320,7 @@ class RegXMLParser:
                         for i in m['array_list']:
                             total = total*i
                         for i in range(total):
-                            address = address + int(m['base_size'])*i//8
+                            address = address + m['base_size']*i//8
                             out.add_header(m['name']+self._ListToString(current_index))
                             self._add_array_list(m['array_list'], current_index, -1)
                             self.recurse_write('', self.get_element_by_id(e.attrib['type']), address, out)
