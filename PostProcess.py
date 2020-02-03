@@ -53,7 +53,7 @@ class PostProcess:
             if re.match(self.reg_comment_pattern[0], string[index:]):
                 #//a=0x250, v=[0x100], d="xxx"
                 match = re.match(self.reg_comment_pattern[0], string[index:])
-                print(match.group(2))
+                # print(match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -61,7 +61,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[1], string[index:]):
                 #//a=0x250, v=[pAECvalue], d="xxx"
                 match = re.match(self.reg_comment_pattern[1], string[index:])
-                print(match.group(2))
+                # print(match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "pointer"
@@ -69,7 +69,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[2], string[index:]):
                 #//a=0x250, v=0x100, d="xxx"
                 match = re.match(self.reg_comment_pattern[2], string[index:])
-                print(match.group(2))
+                # print(match.group(2))
                 member['addr_offset'] = match.group(1)
                 temp_s = match.group(2)
                 if 'u' in match.group(2):
@@ -80,7 +80,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[3], string[index:]):
                 #//a=0x250, p=pW, d="xxx"
                 match = re.match(self.reg_comment_pattern[3], string[index:])
-                print (match.group(2))
+                # print (match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "pointer"
@@ -88,7 +88,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[4], string[index:]):
                 #//0x250, v=[0x100], d="xxx"
                 match = re.match(self.reg_comment_pattern[4], string[index:])
-                print (match.group(2))
+                # print (match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -96,7 +96,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[5], string[index:]):
                 #//0x250, p=pW, d="xxx"
                 match = re.match(self.reg_comment_pattern[5], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "pointer"
@@ -104,7 +104,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[6], string[index:]):
                 #//0x250, v=[pAECvalue], d="xxx"
                 match = re.match(self.reg_comment_pattern[6], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "pointer"
@@ -112,7 +112,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[7], string[index:]):
                 #//0x250, v=0x100, d="xxx"
                 match = re.match(self.reg_comment_pattern[7], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 temp_s = match.group(2)
                 if 'u' in match.group(2):
@@ -123,7 +123,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[8], string[index:]):
                 #//a=0x250, v=[0x100]
                 match = re.match(self.reg_comment_pattern[8], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -131,7 +131,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[9], string[index:]):
                 #//a=0x250, p=pW
                 match = re.match(self.reg_comment_pattern[9], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -139,7 +139,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[10], string[index:]):
                 #//a=0x250, v=[pAECvalue]
                 match = re.match(self.reg_comment_pattern[10], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -147,7 +147,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[11], string[index:]):
                 #//a=0x250, v=0x100
                 match = re.match(self.reg_comment_pattern[11], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 temp_s = match.group(2)
                 if 'u' in match.group(2):
@@ -158,7 +158,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[12], string[index:]):
                 #//0x250, v=[0x100]
                 match = re.match(self.reg_comment_pattern[12], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -166,7 +166,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[13], string[index:]):
                 #//0x250, p=pW
                 match = re.match(self.reg_comment_pattern[13], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -174,7 +174,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[14], string[index:]):
                 #//0x250, v=[pAECvalue]
                 match = re.match(self.reg_comment_pattern[14], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = match.group(2)
                 member['init_value_type'] = "array"
@@ -182,7 +182,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[15], string[index:]):
                 #//0x250, v=0x100
                 match = re.match(self.reg_comment_pattern[15], string[index:])
-                print( match.group(2))
+                # print( match.group(2))
                 member['addr_offset'] = match.group(1)
                 temp_s = match.group(2)
                 if 'u' in match.group(2):
@@ -193,7 +193,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[16], string[index:]):
                 #//a=0x250
                 match = re.match(self.reg_comment_pattern[16], string[index:])
-                print( match.group(1))
+                # print( match.group(1))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = ""
                 member['init_value_type'] = ""
@@ -201,7 +201,7 @@ class PostProcess:
             elif re.match(self.reg_comment_pattern[17], string[index:]):
                 #//0x250
                 match = re.match(self.reg_comment_pattern[17], string[index:])
-                print( match.group(1))
+                # print( match.group(1))
                 member['addr_offset'] = match.group(1)
                 member['init_value'] = ""
                 member['init_value_type'] = ""
