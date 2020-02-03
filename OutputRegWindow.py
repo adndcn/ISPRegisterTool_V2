@@ -61,6 +61,7 @@ class OutputReg(QtWidgets.QWidget):
         # grid_layout.addWidget(self.out_addr_edit, 3, 1)
 
         self.little_endian = QtWidgets.QCheckBox('Little Endian')
+        self.little_endian.stateChanged.connect(self.little_endian_on_changed)
         self.byte_expand = QtWidgets.QCheckBox('Byte Expand')
         self.byte_expand.setCheckState(QtCore.Qt.Checked)
         self.remove_reserved = QtWidgets.QCheckBox('Remove Reserved')
@@ -95,6 +96,10 @@ class OutputReg(QtWidgets.QWidget):
         self.row = 0
         
         self.expand_title_list = []
+    
+    def little_endian_on_changed(self):
+        if self.little_endian.checkState() == QtCore.Qt.Checked:
+            self.byte_expand.setCheckState(QtCore.Qt.Checked)
     
     def InitData(self, parser):
         self.parser = parser
@@ -148,7 +153,7 @@ class OutputReg(QtWidgets.QWidget):
             QtWidgets.QMessageBox.information(self, "information", "Output Register doc done.")
 
     def Generate(self):
-        filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save docx file', "untitled", "docx (*.docx);; excel (*.xls);; csv (*.csv)")
+        filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save docx file', "untitled", "docx (*.docx);; excel (*.xls);; txt (*.txt);; All Files (*)")
         if filename[0]:
             name_list = []
             addr_list = []

@@ -155,7 +155,16 @@ class RegXMLParser:
     
     def _write(self, address, name, value, description, base_size, out):
         if self.option['Byte Expand']:
-            if base_size//8 == 4:
+            if base_size//8 == 8:
+                if self.option['Little Endian']:
+                    postfix = ["[7:0]", "[15:8]", "[23:16]", "[31:24]", "[39:32]", "[47:40]", "[55:48]", "[63:56]"]
+                    v = [value&0xff, (value>>8)&0xff, (value>>16)&0xff, (value>>24)&0xff, (value>>32)&0xff, (value>>40)&0xff, (value>>48)&0xff, (value>>56)&0xff]
+                else:
+                    postfix = ["[63:56]", "[55:48]", "[47:40]", "[39:32]", "[31:24]", "[23:16]", "[15:8]", "[7:0]"]
+                    v = [(value>>56)&0xff, (value>>48)&0xff, (value>>40)&0xff, (value>>32)&0xff, (value>>24)&0xff, (value>>16)&0xff, (value>>8)&0xff, value&0xff]
+                for j in range(8):
+                    out.write(address + j, name+postfix[j], 8, v[j], description)
+            elif base_size//8 == 4:
                 if self.option['Little Endian']:
                     postfix = ["[7:0]", "[15:8]", "[23:16]", "[31:24]"]
                     v = [value&0xff, (value>>8)&0xff, (value>>16)&0xff, (value>>24)&0xff]
