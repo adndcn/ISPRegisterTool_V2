@@ -133,11 +133,11 @@ if __name__ == "__main__":
     file = DocFactory.doc_generator("hh")
     file.open()
     file.add_header("hh")
-    file.write(0x8000, 'test', 0x2, 'des')
-    file.write(0x8000, 'test', 0x2, 'des')
+    file.write(0x8000, 'test', 8, 0x2, 'des')
+    file.write(0x8000, 'test', 8, 0x2, 'des')
     file.add_header("hh")
-    file.write(0x8000, 'test', 0x2, 'des')
-    file.write(0x8000, 'test', 0x2, 'des')
+    file.write(0x8000, 'test', 8, 0x2, 'des')
+    file.write(0x8000, 'test', 8, 0x2, 'des')
     file.close()
 
         
