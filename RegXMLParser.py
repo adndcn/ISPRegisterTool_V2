@@ -247,7 +247,7 @@ class RegXMLParser:
             # print('Typedef ', elem.attrib['id'])
             self.recurse_write(prefix, self.get_element_by_id(elem.attrib['type']), base_addr, out)
         elif elem.tag == 'Struct':
-            # print('Struct ', elem.attrib['id'])
+            print('Struct ', elem.attrib['id'])
             member_element_list = self.get_struct_member(elem)
             for e in member_element_list:
                 m = self.analyze_member_element(e)
