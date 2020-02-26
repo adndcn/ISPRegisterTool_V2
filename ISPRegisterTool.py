@@ -7,7 +7,7 @@ from PyQt5 import QtGui
 from RegXMLParser import RegXMLParser
 from OutputRegWindow import OutputReg
 
-Version = "V2.0"
+Version = "V2.1"
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):

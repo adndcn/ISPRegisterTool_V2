@@ -186,16 +186,27 @@ class RegXMLParser:
                 out.write(address, name, base_size, value, description)
         else:
             out.write(address, name, base_size, value, description)
+    
+    def _str2int(self, value_str):
+        if '0x' in value_str:
+            if 'u' in value_str:
+                value_int = int(value_str[:value_str.find('u')], 16)
+            else:
+                value_int = int(value_str, 16)
+        elif '' == value_str:
+            value_int = 0
+        else:
+            if 'u' in value_str:
+                value_int = int(value_str[:value_str.find('u')])
+            else:
+                value_int = int(value_str)
+        
+        return value_int
 
     def write(self, prefix, address, member, out):
         # if self.option['Byte Expand'] == True:
         if member['array_list'] == []:
-            if '0x' in member['init_value']:
-                value = int(member['init_value'], 16)
-            elif '' == member['init_value']:
-                value = 0
-            else:
-                value = int(member['init_value'])
+            value = self._str2int(member['init_value'])
             self._write(address, prefix+member['name'], value, member['description'], member['base_size'], out)
         else:
             length = len(member['array_list'])
@@ -205,10 +216,7 @@ class RegXMLParser:
                 total = total*i
             if member['init_value_type'] == "array":
                 if '...' in member['init_value']:
-                    if '0x' in member['init_value']:
-                        value = int(member['init_value'].strip('...'), 16)
-                    else:
-                        value = int(member['init_value'].strip('...'))
+                    value = self._str2int(member['init_value'].strip('...'))
                     
                     for i in range(total):
                         addr = address + member['base_size']*i//8
@@ -224,10 +232,7 @@ class RegXMLParser:
 
                         if i < len(value_list):
                             current_value = value_list[i]
-                            if '0x' in current_value:
-                                value = int(current_value, 16)
-                            else:
-                                value = int(current_value)
+                            value = self._str2int(current_value)
                         self._write(addr, prefix+name, value, member['description'], member['base_size'], out)
                         self._add_array_list(member['array_list'], current_index, -1)
             else:
